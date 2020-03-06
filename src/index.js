@@ -1,9 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
 
-import Teste from '~/Teste';
-// import { Container } from './styles';
+import Routes from './routes';
 
 export default function App() {
-  return <Teste />;
+  return <Routes />;
 }
