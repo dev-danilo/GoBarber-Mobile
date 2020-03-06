@@ -13,15 +13,19 @@ export default function Routes() {
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
       <Stack.Navigator
         screenOptions={{
-          headerStyle: {backgroundColor: '#7159c1'},
-          headerTintColor: '#fff',
+          headerShown: false,
         }}>
+        <Stack.Screen name="Home" component={SignIn} />
         <Stack.Screen
-          name="Home"
-          component={SignIn}
-          options={{title: 'Dashboard'}}
+          name="SignUp"
+          component={SignUp}
+          options={{
+            headerShown: true,
+            title: 'SignUp',
+            headerStyle: {backgroundColor: '#7159c1'},
+            headerTintColor: '#fff',
+          }}
         />
-        <Stack.Screen name="SignUp" component={SignUp} />
       </Stack.Navigator>
     </NavigationContainer>
   );
