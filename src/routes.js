@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Proptypes from 'prop-types';
 import SignIn from '~/pages/SignIn';
 import SignUp from '~/pages/SignUp';
 import Dashboard from '~/pages/Dashboard';
@@ -15,9 +14,10 @@ const Tab = createBottomTabNavigator();
 
 export default function Routes() {
   const signed = useSelector(state => state.auth.signed);
+
   return (
     <NavigationContainer>
-      {signed === null ? (
+      {signed === false ? (
         <>
           <Stack.Navigator>
             <Stack.Screen
