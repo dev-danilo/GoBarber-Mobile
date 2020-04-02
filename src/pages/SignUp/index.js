@@ -1,7 +1,13 @@
-import React, {useRef, useState} from 'react';
-import {Image} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
+import { Image } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
+import logo from '~/assets/logo.png';
+
+import Background from '~/components/Background';
+import { signUpRequest } from '~/store/modules/auth/actions';
+
 import {
   Container,
   Form,
@@ -10,21 +16,19 @@ import {
   SignLink,
   SignLinkText,
 } from './styles';
-import {signUpRequest} from '~/store/modules/auth/actions';
-import logo from '~/assets/logo.png';
 
-import Background from '~/components/Background';
-
-export default function SignUp({navigation}) {
+export default function SignUp() {
   const dispatch = useDispatch();
+
   const emailRef = useRef();
   const passwordRef = useRef();
+  const navigation = useNavigation();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loading = useSelector(state => state.auth.loading);
+  const loading = useSelector((state) => state.auth.loading);
 
   function handleSubmit() {
     dispatch(signUpRequest(name, email, password));
@@ -34,10 +38,10 @@ export default function SignUp({navigation}) {
     <Background>
       <Container>
         <Image source={logo} />
+
         <Form>
           <FormInput
             icon="person-outline"
-            keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Nome completo"
@@ -46,12 +50,14 @@ export default function SignUp({navigation}) {
             value={name}
             onChangeText={setName}
           />
+
           <FormInput
             icon="mail-outline"
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Digite seu e-mail"
+            placeholder="Digite seu e-email"
+            ref={emailRef}
             returnKeyType="next"
             onSubmitEditing={() => passwordRef.current.focus()}
             value={email}
@@ -62,11 +68,13 @@ export default function SignUp({navigation}) {
             icon="lock-outline"
             secureTextEntry
             placeholder="Sua senha secreta"
-            onSubmitEditing={handleSubmit}
+            ref={passwordRef}
             returnKeyType="send"
+            onSubmitEditing={handleSubmit}
             value={password}
             onChangeText={setPassword}
           />
+
           <SubmitButton loading={loading} onPress={handleSubmit}>
             Criar conta
           </SubmitButton>
@@ -74,17 +82,12 @@ export default function SignUp({navigation}) {
 
         <SignLink
           onPress={() => {
-            navigation.navigate('Home');
-          }}>
+            navigation.goBack();
+          }}
+        >
           <SignLinkText>Já tenho conta</SignLinkText>
         </SignLink>
       </Container>
     </Background>
   );
 }
-
-SignUp.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};

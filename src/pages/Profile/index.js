@@ -1,9 +1,9 @@
-import React, {useRef, useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import Background from '~/components/Background';
+import React, { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {signOut} from '~/store/modules/auth/actions';
-import {updateProfileRequest} from '~/store/modules/user/actions';
+import Background from '~/components/Background';
+import { updateProfileRequest } from '~/store/modules/user/actions';
+import { signOut } from '~/store/modules/auth/actions';
 
 import {
   Container,
@@ -17,7 +17,6 @@ import {
 
 export default function Profile() {
   const dispatch = useDispatch();
-
   const profile = useSelector(state => state.user.profile);
 
   const emailRef = useRef();
@@ -25,8 +24,8 @@ export default function Profile() {
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  const [name, setName] = useState(profile.name);
   const [email, setEmail] = useState(profile.email);
+  const [name, setName] = useState(profile.name);
   const [oldPassword, setOldPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,10 +36,6 @@ export default function Profile() {
     setConfirmPassword('');
   }, [profile]);
 
-  function handleLogout() {
-    dispatch(signOut);
-  }
-
   function handleSubmit() {
     dispatch(
       updateProfileRequest({
@@ -49,19 +44,24 @@ export default function Profile() {
         oldPassword,
         password,
         confirmPassword,
-      }),
+      })
     );
+  }
+
+  function handleLogout() {
+    dispatch(signOut());
   }
 
   return (
     <Background>
       <Container>
-        <Title>Meu perfil</Title>
+        <Title>Meu Perfil</Title>
 
         <Form>
           <FormInput
             icon="person-outline"
             autoCorrect={false}
+            autoCapitalize="none"
             placeholder="Nome completo"
             returnKeyType="next"
             onSubmitEditing={() => emailRef.current.focus()}
@@ -74,11 +74,10 @@ export default function Profile() {
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
-            placeholder="Digite seu e-mail"
+            placeholder="Digite seu e-email"
             ref={emailRef}
             returnKeyType="next"
             onSubmitEditing={() => oldPasswordRef.current.focus()}
-            importantForAutofill="no"
             value={email}
             onChangeText={setEmail}
           />
@@ -90,7 +89,7 @@ export default function Profile() {
             secureTextEntry
             placeholder="Sua senha atual"
             ref={oldPasswordRef}
-            returnKeyType="next"
+            returnKeyType="send"
             onSubmitEditing={() => passwordRef.current.focus()}
             value={oldPassword}
             onChangeText={setOldPassword}
@@ -101,7 +100,7 @@ export default function Profile() {
             secureTextEntry
             placeholder="Sua nova senha"
             ref={passwordRef}
-            returnKeyType="next"
+            returnKeyType="send"
             onSubmitEditing={() => confirmPasswordRef.current.focus()}
             value={password}
             onChangeText={setPassword}
@@ -119,7 +118,6 @@ export default function Profile() {
           />
 
           <SubmitButton onPress={handleSubmit}>Atualizar perfil</SubmitButton>
-
           <LogoutButton onPress={handleLogout}>Sair do GoBarber</LogoutButton>
         </Form>
       </Container>
